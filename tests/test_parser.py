@@ -29,3 +29,6 @@ def test_mahalle_kontrol():
     assert p.mahalle_kontrol(VERI, "yakuplu mah.") == (True, [])
     var, oneri = p.mahalle_kontrol(VERI, "Yakuplı")
     assert not var and "YAKUPLU" in oneri
+
+def test_tr_baslik():
+    assert p.tr_baslik("BEYLİKDÜZÜ") == "Beylikdüzü" and p.tr_baslik("BAKIRKÖY") == "Bakırköy"

@@ -10,7 +10,7 @@ from homeassistant.helpers.selector import SelectSelector, SelectSelectorConfig,
 
 from .const import CONF_ILCE, CONF_MAHALLE, CONF_OLASI, CONF_SOKAKLAR, DOMAIN, ILCELER
 from .coordinator import bedas_sorgula
-from .parser import ilce_sorgu, mahalle_kontrol, norm
+from .parser import ilce_sorgu, mahalle_kontrol, norm, tr_baslik
 
 _ILCE_SECICI = SelectSelector(SelectSelectorConfig(options=ILCELER, mode=SelectSelectorMode.DROPDOWN))
 
@@ -45,7 +45,7 @@ class BedasKesintiConfigFlow(ConfigFlow, domain=DOMAIN):
                 var, benzer = mahalle_kontrol(ham, mah)
                 anahtar = (ilce, " ".join(norm(mah)))
                 if var or self._uyarilan == anahtar:   # doğru ya da kullanıcı ikinci kez onayladı
-                    return self.async_create_entry(title=f"{mah.strip()} / {ilce.title()}", data=user_input)
+                    return self.async_create_entry(title=f"{mah.strip()} / {tr_baslik(ilce)}", data=user_input)
                 self._uyarilan = anahtar
                 hatalar[CONF_MAHALLE] = "mahalle_yok"
                 oneriler = ", ".join(benzer) if benzer else "—"

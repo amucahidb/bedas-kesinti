@@ -102,3 +102,10 @@ def mahalle_kontrol(veri: list, mahalle: str) -> tuple[bool, list[str]]:
     yakin = difflib.get_close_matches(anahtar, [" ".join(norm(a)) for a in adlar], n=3, cutoff=0.6)
     harita = {" ".join(norm(a)): a for a in adlar}
     return False, [harita[y] for y in yakin] or adlar[:8]
+
+
+def tr_baslik(metin: str) -> str:
+    """'BEYLİKDÜZÜ' -> 'Beylikdüzü' (Python'un .title() İ harfini bozar)."""
+    def kucuk(x: str) -> str:
+        return x.replace("I", "ı").replace("İ", "i").lower()
+    return " ".join(w[:1] + kucuk(w[1:]) for w in metin.strip().split())
