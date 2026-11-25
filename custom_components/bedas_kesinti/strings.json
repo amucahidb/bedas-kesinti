@@ -3,7 +3,7 @@
     "step": {
       "user": {
         "title": "BEDAŞ Outages",
-        "description": "Shows only planned power outages affecting this address (Istanbul, European side).",
+        "description": "Shows only planned power outages affecting this address (Istanbul, European side).\n\nNeighbourhoods in this district's current BEDAŞ notices / similar: {oneriler}",
         "data": {
           "ilce": "District",
           "mahalle": "Neighbourhood",
@@ -11,14 +11,15 @@
           "olasi_dahil": "Also show outages that name only the neighbourhood"
         },
         "data_description": {
-          "ilce": "e.g. Beylikdüzü",
+          "ilce": "Districts served by BEDAŞ",
           "mahalle": "e.g. Yakuplu",
           "sokaklar": "e.g. Birlik Sk., Dereboyu Sk."
         }
       }
     },
     "error": {
-      "baglanti": "Could not reach BEDAŞ, try again later."
+      "baglanti": "Could not reach BEDAŞ, try again later.",
+      "mahalle_yok": "This neighbourhood isn't in the district's current BEDAŞ notices (there may simply be no outage yet). Check the spelling; if it's right, press Submit again."
     },
     "abort": {
       "already_configured": "This address is already configured."

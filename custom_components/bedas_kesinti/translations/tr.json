@@ -3,7 +3,7 @@
     "step": {
       "user": {
         "title": "BEDAŞ Kesinti",
-        "description": "Sadece bu adresi etkileyen planlı elektrik kesintileri gösterilir (İstanbul Avrupa yakası).",
+        "description": "Sadece bu adresi etkileyen planlı elektrik kesintileri gösterilir (İstanbul Avrupa yakası).\n\nBu ilçenin güncel BEDAŞ duyurularında geçen / benzer mahalleler: {oneriler}",
         "data": {
           "ilce": "İlçe",
           "mahalle": "Mahalle",
@@ -11,14 +11,15 @@
           "olasi_dahil": "Sokağı belirtilmemiş (mahalle düzeyi) kesintileri de göster"
         },
         "data_description": {
-          "ilce": "Örn. Beylikdüzü",
+          "ilce": "BEDAŞ'ın hizmet verdiği ilçeler",
           "mahalle": "Örn. Yakuplu",
           "sokaklar": "Örn. Birlik Sk., Dereboyu Sk. — Sk./Cd./Mah. ve İ/ı farkı önemli değil"
         }
       }
     },
     "error": {
-      "baglanti": "BEDAŞ'a ulaşılamadı, sonra tekrar dene."
+      "baglanti": "BEDAŞ'a ulaşılamadı, sonra tekrar dene.",
+      "mahalle_yok": "Bu mahalle adı ilçenin güncel BEDAŞ duyurularında geçmiyor (henüz kesinti duyurulmamış da olabilir). Yazımı kontrol et; doğruysa aynı bilgilerle tekrar Gönder'e bas."
     },
     "abort": {
       "already_configured": "Bu adres zaten ekli."

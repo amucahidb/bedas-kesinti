@@ -24,3 +24,8 @@ def test_bitmis_gelmez():
 
 def test_ilce_sorgu():
     assert p.ilce_sorgu("Beylikdüzü") == "BEYLİKDÜZÜ" and p.ilce_sorgu("Bakırköy") == "BAKIRKÖY"
+
+def test_mahalle_kontrol():
+    assert p.mahalle_kontrol(VERI, "yakuplu mah.") == (True, [])
+    var, oneri = p.mahalle_kontrol(VERI, "Yakuplı")
+    assert not var and "YAKUPLU" in oneri

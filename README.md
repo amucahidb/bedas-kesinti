@@ -5,7 +5,7 @@
 ## Kurulum (önerilen: Marketplace)
 1. **Ayarlar → Marketplace → ⋮ → Bağlantıdan ekle** (Custom repository): `https://github.com/amucahidb/bedas-kesinti`, tür: **Integration**
 2. **BEDAŞ Kesinti**'yi indir, Home Assistant'ı yeniden başlat.
-3. **Ayarlar → Cihazlar ve hizmetler → Entegrasyon ekle → BEDAŞ Kesinti**: ilçe, mahalle, sokak(lar)ı yaz. Sonradan **Yapılandır** ile değiştirebilirsin; birden çok adres için tekrar ekle.
+3. **Ayarlar → Cihazlar ve hizmetler → Entegrasyon ekle → BEDAŞ Kesinti**: ilçeyi listeden seç, mahalle ve sokak(lar)ı yaz. Mahalle adı ilçenin güncel BEDAŞ duyurularında geçmiyorsa ekran uyarır ve benzer adları önerir (doğruysa tekrar *Gönder*). BEDAŞ mahalle/sokak listesi yayınlamadığı için bunlar elle yazılır. Sonradan **Yapılandır** ile değiştirebilirsin; birden çok adres için tekrar ekle.
 
 Oluşan varlıklar (cihaz: *BEDAŞ Kesinti – Mahalle*): **Sıradaki kesinti** (zaman; `ozet`, `bitis`, `seviye`, `neden` öznitelikleri), **Kesinti sayısı**, **Şu an kesinti**, **Kesinti takvimi** (HA takviminde görünür).
 

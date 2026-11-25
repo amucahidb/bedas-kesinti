@@ -79,3 +79,26 @@ def suz(veri: list, mahalle: str, sokaklar: list[str], simdi: datetime | None = 
                 liste.append(Kesinti(bas, bit, seviye, po.get("reason") or "", mah, ", ".join(soks)[:300]))
                 break
     return sorted(set(liste), key=lambda k: (k.baslangic, k.bitis))
+
+
+def duyurudaki_mahalleler(veri: list) -> list[str]:
+    """Ham BEDAŞ listesinde geçen mahalle adları (kurulumda yazım kontrolü için)."""
+    adlar = {}
+    for kayit in veri or []:
+        po = (kayit or {}).get("plannedOutage") or {}
+        for mah, _ in ayristir(po.get("message") or ""):
+            if mah:
+                adlar.setdefault(" ".join(norm(mah)), mah)
+    return sorted(adlar.values())
+
+
+def mahalle_kontrol(veri: list, mahalle: str) -> tuple[bool, list[str]]:
+    """(duyurularda geçiyor mu, benzer ad önerileri)."""
+    import difflib
+    adlar = duyurudaki_mahalleler(veri)
+    anahtar = " ".join(norm(mahalle))
+    if any(" ".join(norm(a)) == anahtar for a in adlar):
+        return True, []
+    yakin = difflib.get_close_matches(anahtar, [" ".join(norm(a)) for a in adlar], n=3, cutoff=0.6)
+    harita = {" ".join(norm(a)): a for a in adlar}
+    return False, [harita[y] for y in yakin] or adlar[:8]
