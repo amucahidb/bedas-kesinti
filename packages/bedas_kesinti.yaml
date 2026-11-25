@@ -1,0 +1,121 @@
+# Elektrik kesintisi takibi (BEDAŞ) — sadece evi ilgilendirenler
+# Kaynak: bedas_kesinti.py — ilçe sorgulanır, sadece senin mahalle/sokağın ayıklanır
+# Bildirimler: notify.mobile_app_TELEFONUN yerine kendi telefonunun servisini yaz (3 yerde)
+# Seviye: kesin = sokak listede; olasi = duyuruda sokak yok, sadece mahalle
+
+command_line:
+  - sensor:
+      name: Kesinti BEDAŞ
+      unique_id: kesinti_bedas
+      # ↓ KENDİ İLÇE, MAHALLE ve SOKAĞINI yaz (birden çok sokak: sonuna boşlukla ekle, çok kelimeliyse tırnak içine al)
+      command: "python3 /config/bedas_kesinti/bedas_kesinti.py BEYLİKDÜZÜ Yakuplu Birlik"
+      command_timeout: 40
+      scan_interval: 10800  # 3 saat
+      value_template: "{{ value_json.adet if value_json.adet is not none else 'hata' }}"
+      json_attributes:
+        - kesintiler
+        - ilce_kayit
+        - guncelleme
+        - hata
+      icon: mdi:transmission-tower-off
+
+input_boolean:
+  kesinti_olasi_bildirim:
+    name: Kesinti - mahalle düzeyi (olası) bildirimleri
+    icon: mdi:bell-alert-outline
+    initial: true
+
+template:
+  - sensor:
+      - name: Kesinti sıradaki elektrik
+        unique_id: kesinti_siradaki_elektrik
+        device_class: timestamp
+        icon: mdi:transmission-tower-off
+        state: >
+          {% set ol = is_state('input_boolean.kesinti_olasi_bildirim', 'on') %}
+          {% set l = state_attr('sensor.kesinti_bedas', 'kesintiler') or [] %}
+          {% set l = l | selectattr('seviye', 'eq', 'kesin') | list if not ol else l %}
+          {% set l = l | selectattr('bitis', 'gt', now().strftime('%Y-%m-%dT%H:%M:%S')) | list %}
+          {{ l[0].baslangic if l else none }}
+        attributes:
+          bitis: >
+            {% set ol = is_state('input_boolean.kesinti_olasi_bildirim', 'on') %}
+            {% set l = state_attr('sensor.kesinti_bedas', 'kesintiler') or [] %}
+            {% set l = l | selectattr('seviye', 'eq', 'kesin') | list if not ol else l %}
+            {% set l = l | selectattr('bitis', 'gt', now().strftime('%Y-%m-%dT%H:%M:%S')) | list %}
+            {{ l[0].bitis if l else none }}
+          seviye: >
+            {% set ol = is_state('input_boolean.kesinti_olasi_bildirim', 'on') %}
+            {% set l = state_attr('sensor.kesinti_bedas', 'kesintiler') or [] %}
+            {% set l = l | selectattr('seviye', 'eq', 'kesin') | list if not ol else l %}
+            {% set l = l | selectattr('bitis', 'gt', now().strftime('%Y-%m-%dT%H:%M:%S')) | list %}
+            {{ l[0].seviye if l else none }}
+          neden: >
+            {% set ol = is_state('input_boolean.kesinti_olasi_bildirim', 'on') %}
+            {% set l = state_attr('sensor.kesinti_bedas', 'kesintiler') or [] %}
+            {% set l = l | selectattr('seviye', 'eq', 'kesin') | list if not ol else l %}
+            {% set l = l | selectattr('bitis', 'gt', now().strftime('%Y-%m-%dT%H:%M:%S')) | list %}
+            {{ l[0].neden if l else none }}
+          ozet: >
+            {% set ol = is_state('input_boolean.kesinti_olasi_bildirim', 'on') %}
+            {% set l = state_attr('sensor.kesinti_bedas', 'kesintiler') or [] %}
+            {% set l = l | selectattr('seviye', 'eq', 'kesin') | list if not ol else l %}
+            {% set l = l | selectattr('bitis', 'gt', now().strftime('%Y-%m-%dT%H:%M:%S')) | list %}
+            {% if l %}{% set k = l[0] %}{% set b = k.baslangic | as_datetime %}{% set e = k.bitis | as_datetime %}
+            {{ b.strftime('%d.%m %H:%M') }}–{{ e.strftime('%H:%M') }} · {{ 'Sokağın listede' if k.seviye == 'kesin' else 'Mahallede (sokak belirtilmemiş)' }} · {{ k.neden }}
+            {% else %}Planlı kesinti yok{% endif %}
+  - binary_sensor:
+      - name: Kesinti elektrik şu an
+        unique_id: kesinti_elektrik_su_an
+        device_class: problem
+        icon: mdi:flash-off
+        state: >
+          {% set l = state_attr('sensor.kesinti_bedas', 'kesintiler') or [] %}
+          {% set t = now().strftime('%Y-%m-%dT%H:%M:%S') %}
+          {{ l | selectattr('baslangic', 'le', t) | selectattr('bitis', 'gt', t) | list | count > 0 }}
+
+automation:
+  - id: kesinti_aksam_hatirlatma
+    alias: Kesinti - yarın elektrik kesintisi (akşam hatırlatma)
+    mode: single
+    triggers:
+      - trigger: time
+        at: "20:00:00"
+    conditions:
+      - condition: template
+        value_template: >
+          {% set s = states('sensor.kesinti_siradaki_elektrik') %}
+          {{ s not in ['unknown', 'unavailable', 'none', ''] and (s | as_datetime | as_local).date() == (now() + timedelta(days=1)).date() }}
+    actions:
+      - action: notify.mobile_app_TELEFONUN
+        data:
+          title: "⚡ Yarın elektrik kesintisi"
+          message: "{{ state_attr('sensor.kesinti_siradaki_elektrik', 'ozet') }}"
+
+  - id: kesinti_bir_saat_once
+    alias: Kesinti - elektrik kesintisine 1 saat kala
+    mode: single
+    triggers:
+      - trigger: time
+        at:
+          entity_id: sensor.kesinti_siradaki_elektrik
+          offset: "-01:00:00"
+    actions:
+      - action: notify.mobile_app_TELEFONUN
+        data:
+          title: "⚡ 1 saat sonra elektrik kesilecek"
+          message: "{{ state_attr('sensor.kesinti_siradaki_elektrik', 'ozet') }}"
+
+  - id: kesinti_kaynak_hatasi
+    alias: Kesinti - BEDAŞ sorgusu 1 gündür çalışmıyor
+    mode: single
+    triggers:
+      - trigger: state
+        entity_id: sensor.kesinti_bedas
+        to: "hata"
+        for: "24:00:00"
+    actions:
+      - action: notify.mobile_app_TELEFONUN
+        data:
+          title: "Kesinti takibi çalışmıyor"
+          message: "BEDAŞ sorgusu 1 gündür hata veriyor: {{ state_attr('sensor.kesinti_bedas', 'hata') }}"

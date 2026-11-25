@@ -1,0 +1,34 @@
+[
+ {
+  "plannedOutage": {
+   "reason": "Bakım Çalışması-Kapsamlı TM Bakımı",
+   "endDateTime": "2099-11-24 17:00:00",
+   "startDateTime": "2099-11-24 09:00:00",
+   "message": "İSTANBUL BEYLİKDÜZÜ ilce -CUMHURİYET mah  sk  bölgelerinde 24/11/2026 09:00:00 - 24/11/2026 17:00:00 saatleri arasında Bakım Çalışması-Kapsamlı TM Bakımı Sebebi ile İş Sağlığı ve Güvenliği'ni de gözeterek elektrik kesintisi yapılacaktır."
+  }
+ },
+ {
+  "plannedOutage": {
+   "reason": "Yatırım / Dönüşüm Çalışması",
+   "endDateTime": "2099-11-26 17:00:00",
+   "startDateTime": "2099-11-26 09:00:00",
+   "message": "İSTANBUL BEYLİKDÜZÜ ilce MERKEZ-YAKUPLU mah BİRLİK, DEREBOYU sk  bölgelerinde 26/11/2026 09:00:00 - 26/11/2026 17:00:00 saatleri arasında Yatırım / Dönüşüm Çalışması Sebebi ile İş Sağlığı ve Güvenliği'ni de gözeterek elektrik kesintisi yapılacaktır."
+  }
+ },
+ {
+  "plannedOutage": {
+   "reason": "Bakım Çalışması-Kapsamlı TM Bakımı",
+   "endDateTime": "2099-11-27 11:00:00",
+   "startDateTime": "2099-11-27 09:00:00",
+   "message": "İSTANBUL BEYLİKDÜZÜ ilce -ADNAN KAHVECİ mah  sk  bölgelerinde 27/11/2026 09:00:00 - 27/11/2026 11:00:00 saatleri arasında Bakım Çalışması-Kapsamlı TM Bakımı Sebebi ile İş Sağlığı ve Güvenliği'ni de gözeterek elektrik kesintisi yapılacaktır."
+  }
+ },
+ {
+  "plannedOutage": {
+   "reason": "Bakım Çalışması-Kapsamlı TM Bakımı",
+   "endDateTime": "2099-11-27 17:00:00",
+   "startDateTime": "2099-11-27 13:00:00",
+   "message": "İSTANBUL BEYLİKDÜZÜ ilce -ADNAN KAHVECİ mah  sk  bölgelerinde 27/11/2026 13:00:00 - 27/11/2026 17:00:00 saatleri arasında Bakım Çalışması-Kapsamlı TM Bakımı Sebebi ile İş Sağlığı ve Güvenliği'ni de gözeterek elektrik kesintisi yapılacaktır."
+  }
+ }
+]
