@@ -1,0 +1,12 @@
+{
+  "domain": "bedas_kesinti",
+  "name": "BEDAŞ Kesinti",
+  "codeowners": ["@amucahidb"],
+  "config_flow": true,
+  "documentation": "https://github.com/amucahidb/bedas-kesinti",
+  "integration_type": "service",
+  "iot_class": "cloud_polling",
+  "issue_tracker": "https://github.com/amucahidb/bedas-kesinti/issues",
+  "requirements": [],
+  "version": "0.1.0"
+}

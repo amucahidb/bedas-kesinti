@@ -1,0 +1,60 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "BEDAŞ Kesinti",
+        "description": "Sadece bu adresi etkileyen planlı elektrik kesintileri gösterilir (İstanbul Avrupa yakası).",
+        "data": {
+          "ilce": "İlçe",
+          "mahalle": "Mahalle",
+          "sokaklar": "Sokak / cadde (birden çoksa virgülle)",
+          "olasi_dahil": "Sokağı belirtilmemiş (mahalle düzeyi) kesintileri de göster"
+        },
+        "data_description": {
+          "ilce": "Örn. Beylikdüzü",
+          "mahalle": "Örn. Yakuplu",
+          "sokaklar": "Örn. Birlik Sk., Dereboyu Sk. — Sk./Cd./Mah. ve İ/ı farkı önemli değil"
+        }
+      }
+    },
+    "error": {
+      "baglanti": "BEDAŞ'a ulaşılamadı, sonra tekrar dene."
+    },
+    "abort": {
+      "already_configured": "Bu adres zaten ekli."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Adres ve tercihler",
+        "data": {
+          "ilce": "İlçe",
+          "mahalle": "Mahalle",
+          "sokaklar": "Sokak / cadde (birden çoksa virgülle)",
+          "olasi_dahil": "Sokağı belirtilmemiş (mahalle düzeyi) kesintileri de göster"
+        }
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "siradaki": {
+        "name": "Sıradaki kesinti"
+      },
+      "adet": {
+        "name": "Kesinti sayısı"
+      }
+    },
+    "binary_sensor": {
+      "su_an": {
+        "name": "Şu an kesinti"
+      }
+    },
+    "calendar": {
+      "takvim": {
+        "name": "Kesinti takvimi"
+      }
+    }
+  }
+}

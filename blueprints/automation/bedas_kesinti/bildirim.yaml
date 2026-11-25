@@ -1,0 +1,37 @@
+blueprint:
+  name: BEDAŞ Kesinti – önceden bildir
+  description: Sıradaki elektrik kesintisinden belirli bir süre önce telefona bildirim gönderir.
+  domain: automation
+  source_url: https://github.com/amucahidb/bedas-kesinti/blob/main/blueprints/automation/bedas_kesinti/bildirim.yaml
+  input:
+    sensor:
+      name: Sıradaki kesinti sensörü
+      selector:
+        entity:
+          filter: {integration: bedas_kesinti, domain: sensor, device_class: timestamp}
+    telefon:
+      name: Bildirim gidecek telefon
+      selector:
+        device:
+          filter: {integration: mobile_app}
+    once:
+      name: Ne kadar önce
+      default: {hours: 1, minutes: 0, seconds: 0}
+      selector:
+        duration: {}
+mode: queued
+variables:
+  sensor: !input sensor
+  once: !input once
+triggers:
+  - trigger: time
+    at:
+      entity_id: !input sensor
+      offset: >-
+        -{{ '%02d:%02d:%02d' | format(once.hours | int(0), once.minutes | int(0), once.seconds | int(0)) }}
+actions:
+  - domain: mobile_app
+    type: notify
+    device_id: !input telefon
+    title: "⚡ Elektrik kesintisi yaklaşıyor"
+    message: "{{ state_attr(sensor, 'ozet') }}"

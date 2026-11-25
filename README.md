@@ -2,6 +2,17 @@
 
 İstanbul Avrupa yakasında **BEDAŞ planlı elektrik kesintilerini** Home Assistant'a getirir. Yalnızca **senin mahalleni ve sokağını** etkileyen kesintileri gösterir. Ek eklenti ya da entegrasyon kurman gerekmez. Bir Python betiği ve bir paket dosyasından ibarettir.
 
+## Kurulum (önerilen: Marketplace)
+1. **Ayarlar → Marketplace → ⋮ → Bağlantıdan ekle** (Custom repository): `https://github.com/amucahidb/bedas-kesinti`, tür: **Integration**
+2. **BEDAŞ Kesinti**'yi indir, Home Assistant'ı yeniden başlat.
+3. **Ayarlar → Cihazlar ve hizmetler → Entegrasyon ekle → BEDAŞ Kesinti**: ilçe, mahalle, sokak(lar)ı yaz. Sonradan **Yapılandır** ile değiştirebilirsin; birden çok adres için tekrar ekle.
+
+Oluşan varlıklar (cihaz: *BEDAŞ Kesinti – Mahalle*): **Sıradaki kesinti** (zaman; `ozet`, `bitis`, `seviye`, `neden` öznitelikleri), **Kesinti sayısı**, **Şu an kesinti**, **Kesinti takvimi** (HA takviminde görünür).
+
+**Bildirim:** `blueprints/automation/bedas_kesinti/bildirim.yaml` blueprint'ini içe aktar (Ayarlar → Otomasyonlar → Blueprint'ler → İçe aktar, dosyanın GitHub adresini yapıştır), telefonunu ve “ne kadar önce”yi seç. Farklı süreler için (ör. 12 saat ve 1 saat) iki otomasyon oluştur.
+
+> Entegrasyon kurmadan, dosya kopyalayarak kurmak istersen aşağıdaki **paket yöntemi** de çalışır.
+
 ## Ne yapar?
 - 3 saatte bir BEDAŞ'a sadece **senin ilçeni** sorar ve gelen listeden yalnızca senin mahalle ve sokağını içeren kesintileri ayırır.
 - Her kesintiye bir **seviye** verir:
@@ -13,7 +24,7 @@
   - Kesintiye 1 saat kala,
   - BEDAŞ sorgusu 1 gündür çalışmıyorsa.
 
-## Oluşan varlıklar
+## Oluşan varlıklar (paket yöntemi)
 | Varlık | Açıklama |
 |---|---|
 | `sensor.kesinti_bedas` | Eşleşen kesinti sayısı. Ayrıntıları özniteliklerde: `kesintiler`, `guncelleme`, `hata` |
@@ -21,7 +32,7 @@
 | `binary_sensor.kesinti_elektrik_su_an` | Şu an kesinti varsa açık olur |
 | `input_boolean.kesinti_olasi_bildirim` | Mahalle düzeyindeki (olası) kesintiler için bildirim açık mı |
 
-## Kurulum
+## Paket yöntemi (entegrasyonsuz)
 1. `configuration.yaml` dosyasında paketler açık değilse ekle:
    ```yaml
    homeassistant:
@@ -62,7 +73,8 @@ python3 bedas_kesinti.py BEYLİKDÜZÜ Yakuplu Birlik
 - Su kesintileri (İSKİ) için herkese açık, düzenli bir veri kaynağı bulunamadı. Bunun için İSKİ'nin SMS bilgilendirme servisi öneriliyor.
 
 ## Geliştirme
-Katkılar açık: AYEDAŞ (Anadolu yakası), takvim varlığı, Marketplace'ten kurulan bir entegrasyon ve benzeri.
+Katkılar açık: AYEDAŞ (Anadolu yakası), anlık arızalar, diğer illerin dağıtım şirketleri…
+Entegrasyon kodu `custom_components/bedas_kesinti/`; ayrıştırma `parser.py` (HA'dan bağımsız, testli).
 ```bash
 pip install pytest pyyaml
 pytest -q

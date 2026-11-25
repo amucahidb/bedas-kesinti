@@ -1,0 +1,60 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "BEDAŞ Outages",
+        "description": "Shows only planned power outages affecting this address (Istanbul, European side).",
+        "data": {
+          "ilce": "District",
+          "mahalle": "Neighbourhood",
+          "sokaklar": "Street(s), comma separated",
+          "olasi_dahil": "Also show outages that name only the neighbourhood"
+        },
+        "data_description": {
+          "ilce": "e.g. Beylikdüzü",
+          "mahalle": "e.g. Yakuplu",
+          "sokaklar": "e.g. Birlik Sk., Dereboyu Sk."
+        }
+      }
+    },
+    "error": {
+      "baglanti": "Could not reach BEDAŞ, try again later."
+    },
+    "abort": {
+      "already_configured": "This address is already configured."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Address and preferences",
+        "data": {
+          "ilce": "District",
+          "mahalle": "Neighbourhood",
+          "sokaklar": "Street(s), comma separated",
+          "olasi_dahil": "Also show outages that name only the neighbourhood"
+        }
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "siradaki": {
+        "name": "Next outage"
+      },
+      "adet": {
+        "name": "Outage count"
+      }
+    },
+    "binary_sensor": {
+      "su_an": {
+        "name": "Outage now"
+      }
+    },
+    "calendar": {
+      "takvim": {
+        "name": "Outage calendar"
+      }
+    }
+  }
+}
